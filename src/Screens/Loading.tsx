@@ -1,10 +1,10 @@
-// src/screens/Loading.js
+
 import React, { Component } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
- // import the functions for loading either the login screen or the tabs screen (shows home screen by default)
 import { goToAllDeals, goToAllStores } from './navigation';
+import { connect } from 'react-redux';
 
-export default class Loading extends Component {
+class Loading extends Component {
     async componentDidMount() {
         goToAllDeals()
         // goToAllStores()
@@ -18,6 +18,8 @@ export default class Loading extends Component {
       );
     }
   }
+
+export default connect(null, null)(Loading)
   
   const styles = StyleSheet.create({
     container: {

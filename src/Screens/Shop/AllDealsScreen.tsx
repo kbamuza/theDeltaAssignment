@@ -6,9 +6,11 @@ import DealContainer from './DealContainer';
 import { Game, Store } from '../../types/shop';
 import { filterGamesBySaleItems, filterGamesBySearchTerm, getAllDeals, getAllStores } from '../../Services/StoreService';
 import FilterSection from './FilterSection';
+import { connect } from "react-redux";
 
 interface AllDealsScreenProps {
-    componentId: string
+    componentId: string,
+    stores: Store[]
 }
 
 
@@ -19,7 +21,7 @@ interface AllDealsScreenState {
     isSaleFilterSelected: boolean
 }
 
-export default class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreenState> {
+class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreenState> {
 
     constructor(props: AllDealsScreenProps) {
         super(props)
@@ -34,6 +36,8 @@ export default class AllDealsScreen extends React.Component<AllDealsScreenProps,
     componentDidMount = () => {
         this.getAvailableDeals()
         this.getAllStoresList()
+
+        console.log("AllDealsScreen.componentDidMount.stores", this.props.stores)
     }
 
     getAvailableDeals = () => {
@@ -115,7 +119,14 @@ export default class AllDealsScreen extends React.Component<AllDealsScreenProps,
     }
 };
 
-//screen title
+const mapStateToProps = (state: any) => {
+    return {
+        stores: state.storeReducer.stores
+    }
+}
+
+export default connect(mapStateToProps, null)(AllDealsScreen);
+
 AllDealsScreen.navigationOptions = {
     title: 'All Deals'
 };
