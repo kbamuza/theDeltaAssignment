@@ -2,11 +2,13 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, Image, Dimensions } from 'react-native';
 import { Text, View, Button } from 'react-native';
 import { Navigation } from "react-native-navigation";
-import { getDealsForGame } from '../../Services/StoreService';
-import { Deal, Game } from '../../types/shop';
+import { connect } from 'react-redux';
+import { findStoreById, getDealsForGame } from '../../Services/StoreService';
+import { Deal, Game, Store } from '../../types/shop';
 
 interface DetailsScreenProps {
     game: Game
+    stores: Store[]
 }
 
 
@@ -14,7 +16,7 @@ interface DetailsScreenState {
     dealsForGame: Deal[]
 }
 
-export default class DetailsScreen extends React.Component<DetailsScreenProps, DetailsScreenState> {
+class DetailsScreen extends React.Component<DetailsScreenProps, DetailsScreenState> {
 
     constructor(props: DetailsScreenProps) {
         super(props)
@@ -39,8 +41,9 @@ export default class DetailsScreen extends React.Component<DetailsScreenProps, D
     }
 
     render() {
-    const {game} = this.props
+    const {game, stores} = this.props
     const hasDiscount = !!Number(game?.salePrice)
+    const gameStore = findStoreById(game?.storeID, stores)
     return (
         <SafeAreaView style={styles.pageContainer}>
             <View style={styles.contentContainer}>
@@ -50,7 +53,7 @@ export default class DetailsScreen extends React.Component<DetailsScreenProps, D
                     {hasDiscount && <Text style={styles.discountedPrice}>{game?.salePrice || ""}</Text>}
                 </View>
                 {hasDiscount && <Text style={styles.savings}>{`You save ${game?.savings || ""}`}</Text>}
-                <Text style={styles.subheading}>{`Available at`}</Text>
+                <Text style={styles.subheading}>{`Available at ${gameStore?.storeName}`}</Text>
                 <View style={styles.imageContainer}>
                     {!!game.thumb && <Image resizeMode="contain" style={styles.image} source={{uri: `${game.thumb}`}}/>}
                 </View>
@@ -65,6 +68,14 @@ export default class DetailsScreen extends React.Component<DetailsScreenProps, D
 DetailsScreen.navigationOptions = {
     title: 'Detail Screen'
 };
+
+const mapStateToProps = (state: any) => {
+    return {
+        stores: state.storeReducer.stores
+    }
+}
+
+export default connect(mapStateToProps, null)(DetailsScreen);
 
 const styles = StyleSheet.create({
     pageContainer: {

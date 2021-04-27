@@ -16,13 +16,13 @@ export function getAllDeals(): Promise<[Game]> {
         })
 }
 
-export function getAllStores(): Promise<[Store]> {
+export function getAllStores(): Promise<Store[]> {
     const url = `${CHEAPSHARK_BASE_API}/api/1.0/stores`
     return fetch(url, {method: 'GET'})
-        .then((response) => response.json() as Promise<[Store]>)
+        .then((response) => response.json() as Promise<Store[]>)
         .then(response => {
             console.log("storeService.getAllStores.response", response)
-            return response as [Store]
+            return response as Store[]
         })
         .catch(err => {
             console.log("storeService.getAllStores.catch.err", err)
@@ -44,7 +44,8 @@ export function getDealsForGame(steamAppID: string): Promise<Deal[]> {
         })
 }
 
-export function findStore(storeID: string, stores: Store[]){
+export function findStoreById(storeID: string, stores: Store[]){
+    console.log("storeService.findStoreById.stores.stores", stores)
     return stores.find((item) => 
         item.storeID === storeID
     )

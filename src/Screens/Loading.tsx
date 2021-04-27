@@ -3,12 +3,41 @@ import React, { Component } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import { goToAllDeals, goToAllStores } from './navigation';
 import { connect } from 'react-redux';
+import { getAllStores } from "../Services/StoreService";
+import { saveStores } from "../Redux/Actions/StoreActions";
+import { Store } from "../types/shop";
 
-class Loading extends Component {
+interface LoadingProps {
+  componentId: string,
+  saveStores: (stores: Store[]) => void
+}
+
+class Loading extends Component<LoadingProps> {
+
+  constructor(props: LoadingProps) {
+    super(props)
+    this.state = {
+
+    }
+}
+
     async componentDidMount() {
-        goToAllDeals()
+      this.getAllStoresList()
+        
         // goToAllStores()
     }
+
+    getAllStoresList = () => {
+      getAllStores().then((allStores) => {
+          console.log("Loading.getAvailableDeals.allStores", allStores)
+          this.props.saveStores(allStores)
+          goToAllDeals()
+      })
+      .catch((err) => {
+          console.log("Loading.getAvailableDeals.err", err)
+          goToAllDeals()
+      })
+  }
   
     render() {
       return (
@@ -19,7 +48,12 @@ class Loading extends Component {
     }
   }
 
-export default connect(null, null)(Loading)
+  const mapDispatchToProps = (dispatch: any) => ({
+    saveStores: (stores: Store[]) => dispatch(saveStores(stores)),
+    dispatch
+  })
+
+export default connect(null, mapDispatchToProps)(Loading)
   
   const styles = StyleSheet.create({
     container: {

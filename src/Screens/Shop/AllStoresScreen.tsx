@@ -2,10 +2,10 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, FlatList, TextInput, Keyboard} from 'react-native';
 import { Text, View } from 'react-native';
 import { Navigation } from "react-native-navigation";
-import DealContainer from './DealContainer';
+
 import { Game, Store } from '../../types/shop';
-import { filterGamesBySaleItems, filterGamesBySearchTerm, filterStoresBySearchTerm, getAllDeals, getAllStores } from '../../Services/StoreService';
-import FilterSection from './FilterSection';
+import { filterStoresBySearchTerm, getAllDeals } from '../../Services/StoreService';
+
 import StoreContainer from './StoreContainer';
 
 interface AllStoresScreenProps {
@@ -34,22 +34,12 @@ export default class AllStoresScreen extends React.Component<AllStoresScreenProp
 
     componentDidMount = () => {
         this.getAvailableDeals()
-        this.getAllStoresList()
     }
 
     getAvailableDeals = () => {
         getAllDeals().then((allDeals) => {
             console.log("AllStoresScreen.getAvailableDeals.allDeals", allDeals)
             this.setState({allDeals})
-        }).catch((err) => {
-            console.log("AllStoresScreen.getAvailableDeals.err", err)
-        })
-    }
-
-    getAllStoresList = () => {
-        getAllStores().then((allStores) => {
-            console.log("AllStoresScreen.getAvailableDeals.allStores", allStores)
-            this.setState({allStores})
         }).catch((err) => {
             console.log("AllStoresScreen.getAvailableDeals.err", err)
         })
