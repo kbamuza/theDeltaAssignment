@@ -24,6 +24,23 @@ export const goToAllDeals = () => {
   })
 }
 
+export const goToAllStores = () => {
+  Navigation.setRoot({
+    root: {
+      stack: {
+        // create a stack navigation
+        children: [
+          {
+            component: {
+              name: "AllStoresScreen",
+            },
+          },
+        ],
+      },
+    },
+  })
+}
+
 export const goToTabs = (icons, username) => {
   Navigation.setRoot({
     root: {
