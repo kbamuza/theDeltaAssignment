@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import { Navigation } from "react-native-navigation";
 import DealContainer from './DealContainer';
 import { Game, Store } from '../../types/shop';
-import { filterGamesBySaleItems, filterGamesBySearchTerm, getAllDeals, getAllStores } from '../../Services/StoreService';
+import { filterGamesBySaleItems, filterGamesBySearchTerm, filterStoresBySearchTerm, getAllDeals, getAllStores } from '../../Services/StoreService';
 import FilterSection from './FilterSection';
 import StoreContainer from './StoreContainer';
 
@@ -70,19 +70,10 @@ export default class AllStoresScreen extends React.Component<AllStoresScreenProp
         this.setState({ searchTerm: text })
     }
 
-    setSaleFilter = () => {
-        this.setState({ isSaleFilterSelected: !this.state.isSaleFilterSelected })
-    }
-
-    // setSaleFilter = () => {
-    //     this.setState({ searchTerm: text })
-    // }
-
     render() {
     // show loading indicator
-    const {allDeals, searchTerm, isSaleFilterSelected, allStores} = this.state
-    const filteredResultsBySearchTerm = filterGamesBySearchTerm(searchTerm, allDeals)
-    const filteredResultsBySaleItems = filterGamesBySaleItems(isSaleFilterSelected, filteredResultsBySearchTerm)
+    const {searchTerm, allStores} = this.state
+    const filteredStoresList = filterStoresBySearchTerm(searchTerm, allStores)
 
     return (
         <SafeAreaView style={styles.pageContainer}>
@@ -100,7 +91,7 @@ export default class AllStoresScreen extends React.Component<AllStoresScreenProp
                 <FlatList
                     onScrollBeginDrag={() => Keyboard.dismiss()}
                     keyboardShouldPersistTaps = {'always'}
-                    data={allStores}
+                    data={filteredStoresList}
                     renderItem={({item, index}) => (
                         <StoreContainer goToDetails={() => this.goToDetails(item)} store={item}/>
                     )}
