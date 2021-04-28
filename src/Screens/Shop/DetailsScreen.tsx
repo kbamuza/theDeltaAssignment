@@ -1,10 +1,11 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Image, Dimensions } from 'react-native';
+import { SafeAreaView, StyleSheet, Image, Dimensions, FlatList, Keyboard, ScrollView } from 'react-native';
 import { Text, View, Button } from 'react-native';
 import { Navigation } from "react-native-navigation";
 import { connect } from 'react-redux';
 import { findStoreById, getDealsForGame } from '../../Services/StoreService';
 import { Deal, Game, Store } from '../../types/shop';
+import AdditionalDealContainer from './AdditionalDealContainer';
 
 interface DetailsScreenProps {
     game: Game
@@ -42,11 +43,12 @@ class DetailsScreen extends React.Component<DetailsScreenProps, DetailsScreenSta
 
     render() {
     const {game, stores} = this.props
+    const {dealsForGame} = this.state
     const hasDiscount = !!Number(game?.salePrice)
     const gameStore = findStoreById(game?.storeID, stores)
     return (
         <SafeAreaView style={styles.pageContainer}>
-            <View style={styles.contentContainer}>
+            <ScrollView style={styles.contentContainer}>
                 <Text style={styles.productName}>{game?.title}</Text>
                 <View style={styles.priceContainer}>
                     <Text style={[styles.productPrice, hasDiscount && styles.priceDiscountIndication]}>{game?.normalPrice || ""}</Text>
@@ -58,7 +60,16 @@ class DetailsScreen extends React.Component<DetailsScreenProps, DetailsScreenSta
                     {!!game.thumb && <Image resizeMode="contain" style={styles.image} source={{uri: `${game.thumb}`}}/>}
                 </View>
                 <Text style={styles.subheading}>{`Other deals for this game`}</Text>
-            </View>
+                <FlatList
+                    keyboardShouldPersistTaps = {'always'}
+                    data={dealsForGame}
+                    scrollEnabled={false}
+                    renderItem={({item, index}) => (
+                        <AdditionalDealContainer viewMoreInfo={() => {}} deal={item} store={gameStore}/>
+                    )}
+                    keyExtractor={(item, index) => (item.dealID)}
+                />
+            </ScrollView>
         </SafeAreaView>
     );
     }
@@ -113,7 +124,8 @@ const styles = StyleSheet.create({
     subheading: {
         fontSize: 24,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        marginBottom: 10
     },
     image: {
         height: 300,

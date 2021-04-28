@@ -4,19 +4,20 @@ import { Text, View } from 'react-native';
 import { Navigation } from "react-native-navigation";
 import DealContainer from './DealContainer';
 import { Game, Store } from '../../types/shop';
-import { filterGamesBySaleItems, filterGamesBySearchTerm, getAllDeals, getAllStores } from '../../Services/StoreService';
+import { filterGamesBySaleItems, filterGamesBySearchTerm, getAllGames, getAllStores } from '../../Services/StoreService';
 import FilterSection from './FilterSection';
 import { connect } from "react-redux";
 
 interface AllDealsScreenProps {
     componentId: string,
     stores: Store[]
+    availableGames: Game[]
 }
 
 
 interface AllDealsScreenState {
-    allDeals: Game[],
-    allStores: Store[],
+    // allDeals: Game[],
+    // allStores: Store[],
     searchTerm: string,
     isSaleFilterSelected: boolean
 }
@@ -26,37 +27,25 @@ class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreen
     constructor(props: AllDealsScreenProps) {
         super(props)
         this.state = {
-            allDeals: [],
-            allStores: [],
+            // allDeals: [],
+            // allStores: [],
             searchTerm: "",
             isSaleFilterSelected: false
         }
     }
 
     componentDidMount = () => {
-        this.getAvailableDeals()
-        this.getAllStoresList()
-
         console.log("AllDealsScreen.componentDidMount.stores", this.props.stores)
     }
 
-    getAvailableDeals = () => {
-        getAllDeals().then((allDeals) => {
-            console.log("AllDealsScreen.getAvailableDeals.allDeals", allDeals)
-            this.setState({allDeals})
-        }).catch((err) => {
-            console.log("AllDealsScreen.getAvailableDeals.err", err)
-        })
-    }
-
-    getAllStoresList = () => {
-        getAllStores().then((allStores) => {
-            console.log("AllDealsScreen.getAvailableDeals.allStores", allStores)
-            this.setState({allStores})
-        }).catch((err) => {
-            console.log("AllDealsScreen.getAvailableDeals.err", err)
-        })
-    }
+    // getAllStoresList = () => {
+    //     getAllStores().then((allStores) => {
+    //         console.log("AllDealsScreen.getAvailableDeals.allStores", allStores)
+    //         this.setState({allStores})
+    //     }).catch((err) => {
+    //         console.log("AllDealsScreen.getAvailableDeals.err", err)
+    //     })
+    // }
 
     goToDetails = (game: Game) => {
         Navigation.push(this.props.componentId, {
@@ -83,8 +72,9 @@ class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreen
 
     render() {
     // show loading indicator
-    const {allDeals, searchTerm, isSaleFilterSelected} = this.state
-    const filteredResultsBySearchTerm = filterGamesBySearchTerm(searchTerm, allDeals)
+    const {availableGames, stores} = this.props
+    const {searchTerm, isSaleFilterSelected} = this.state
+    const filteredResultsBySearchTerm = filterGamesBySearchTerm(searchTerm, availableGames)
     const filteredResultsBySaleItems = filterGamesBySaleItems(isSaleFilterSelected, filteredResultsBySearchTerm)
 
     return (
@@ -121,7 +111,8 @@ class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreen
 
 const mapStateToProps = (state: any) => {
     return {
-        stores: state.storeReducer.stores
+        stores: state.storeReducer.stores,
+        availableGames: state.storeReducer.availableGames,
     }
 }
 

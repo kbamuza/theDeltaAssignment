@@ -1,5 +1,6 @@
 const initialState = {
-    stores: []
+    stores: [],
+    availableGames: []
 };
 
 export function storeReducer(state = initialState , action: any){
@@ -9,6 +10,11 @@ export function storeReducer(state = initialState , action: any){
         return{
             ...state,
             stores : action.data.stores
+        }}
+        case "SAVE_AVAILABLE_GAMES" :{
+            return{
+                ...state,
+                availableGames : action.data.games
         }}
         default:{
             return state;

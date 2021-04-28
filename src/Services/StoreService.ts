@@ -2,16 +2,16 @@ import { Deal, Game, Store } from "../types/shop"
 
 export const CHEAPSHARK_BASE_API = "https://www.cheapshark.com"
 
-export function getAllDeals(): Promise<[Game]> {
+export function getAllGames(): Promise<[Game]> {
     const url = `${CHEAPSHARK_BASE_API}/api/1.0/deals`
     return fetch(url, {method: 'GET'})
         .then((response) => response.json() as Promise<[Game]>)
         .then(response => {
-            console.log("storeService.getAllDeals.response", response)
+            console.log("storeService.getAllGames.response", response)
             return response as [Game]
         })
         .catch(err => {
-            console.log("storeService.getAllDeals.catch.err", err)
+            console.log("storeService.getAllGames.catch.err", err)
             throw new Error(err)
         })
 }

@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import { Navigation } from "react-native-navigation";
 
 import { Game, Store } from '../../types/shop';
-import { filterStoresBySearchTerm, getAllDeals } from '../../Services/StoreService';
+import { filterStoresBySearchTerm, getAllGames } from '../../Services/StoreService';
 
 import StoreContainer from './StoreContainer';
 
@@ -37,7 +37,7 @@ export default class AllStoresScreen extends React.Component<AllStoresScreenProp
     }
 
     getAvailableDeals = () => {
-        getAllDeals().then((allDeals) => {
+        getAllGames().then((allDeals) => {
             console.log("AllStoresScreen.getAvailableDeals.allDeals", allDeals)
             this.setState({allDeals})
         }).catch((err) => {
