@@ -7,53 +7,43 @@ import { Game, Store } from '../../types/shop';
 import { filterStoresBySearchTerm, getAllGames } from '../../Services/StoreService';
 
 import StoreContainer from './StoreContainer';
+import { connect } from 'react-redux';
 
 interface AllStoresScreenProps {
     componentId: string
+    game: Game
+    stores: Store[]
 }
 
-
 interface AllStoresScreenState {
-    allDeals: Game[],
-    allStores: Store[],
     searchTerm: string,
     isSaleFilterSelected: boolean
 }
 
-export default class AllStoresScreen extends React.Component<AllStoresScreenProps, AllStoresScreenState> {
+class AllStoresScreen extends React.Component<AllStoresScreenProps, AllStoresScreenState> {
 
     constructor(props: AllStoresScreenProps) {
         super(props)
         this.state = {
-            allDeals: [],
-            allStores: [],
             searchTerm: "",
             isSaleFilterSelected: false
         }
     }
 
     componentDidMount = () => {
-        this.getAvailableDeals()
+
     }
 
-    getAvailableDeals = () => {
-        getAllGames().then((allDeals) => {
-            console.log("AllStoresScreen.getAvailableDeals.allDeals", allDeals)
-            this.setState({allDeals})
-        }).catch((err) => {
-            console.log("AllStoresScreen.getAvailableDeals.err", err)
-        })
-    }
 
-    goToDetails = (game: Game) => {
-        Navigation.push(this.props.componentId, {
-            component: {
-                name: "DetailsScreen",
-                passProps: {
-                    game
-                }
-            },
-        });
+    goToDetails = (store: Store) => {
+        // Navigation.push(this.props.componentId, {
+        //     component: {
+        //         name: "DetailsScreen",
+        //         passProps: {
+        //             game
+        //         }
+        //     },
+        // });
     };
 
     handleSearchInputChange = (text: string) => {
@@ -62,8 +52,9 @@ export default class AllStoresScreen extends React.Component<AllStoresScreenProp
 
     render() {
     // show loading indicator
-    const {searchTerm, allStores} = this.state
-    const filteredStoresList = filterStoresBySearchTerm(searchTerm, allStores)
+    const {stores} = this.props
+    const {searchTerm,} = this.state
+    const filteredStoresList = filterStoresBySearchTerm(searchTerm, stores)
 
     return (
         <SafeAreaView style={styles.pageContainer}>
@@ -92,6 +83,14 @@ export default class AllStoresScreen extends React.Component<AllStoresScreenProp
     );
     }
 };
+
+const mapStateToProps = (state: any) => {
+    return {
+        stores: state.storeReducer.stores
+    }
+}
+
+export default connect(mapStateToProps, null)(AllStoresScreen);
 
 //screen title
 AllStoresScreen.navigationOptions = {
