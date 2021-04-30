@@ -58,10 +58,10 @@ class DetailsScreen extends React.Component<DetailsScreenProps, DetailsScreenSta
             <ScrollView style={styles.contentContainer}>
                 <Text style={styles.productName}>{game?.title}</Text>
                 <View style={styles.priceContainer}>
-                    <Text style={[styles.productPrice, hasDiscount && styles.priceDiscountIndication]}>{game?.normalPrice || ""}</Text>
-                    {hasDiscount && <Text style={styles.discountedPrice}>{game?.salePrice || ""}</Text>}
+                    <Text style={[styles.productPrice, hasDiscount && styles.priceDiscountIndication]}>{"$" + game?.normalPrice || ""}</Text>
+                    {hasDiscount && <Text style={styles.discountedPrice}>{"$" + game?.salePrice || ""}</Text>}
                 </View>
-                {hasDiscount && <Text style={styles.savings}>{`You save ${game?.savings || ""}`}</Text>}
+                {hasDiscount && <Text style={styles.savings}>{`You save ${"$" + game?.savings || ""}`}</Text>}
                 <Text style={styles.subheading}>{`Available at ${gameStore?.storeName}`}</Text>
                 <View style={styles.imageContainer}>
                     {!!game.thumb && <Image resizeMode="contain" style={styles.image} source={{uri: `${game.thumb}`}}/>}

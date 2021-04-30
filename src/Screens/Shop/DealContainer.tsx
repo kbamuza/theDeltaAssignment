@@ -29,8 +29,8 @@ export default class DealContainer extends React.Component<DealContainerProps, D
                 <View style={styles.contentContainer}>
                     <Text style={styles.productName}>{game?.title || ""}</Text>
                     <View style={styles.priceContainer}>
-                        <Text style={[styles.productPrice, hasDiscount && styles.priceDiscountIndication]}>{game?.normalPrice || ""}</Text>
-                        {hasDiscount && <Text style={styles.discountedPrice}>{game?.salePrice || ""}</Text>}
+                        <Text style={[styles.productPrice, hasDiscount && styles.priceDiscountIndication]}>{"$" + game?.normalPrice || ""}</Text>
+                        {hasDiscount && <Text style={styles.discountedPrice}>{"$" + game?.salePrice || ""}</Text>}
                     </View>
                     <View style={styles.viewMoreButtonContainer}>
                         <TouchableOpacity

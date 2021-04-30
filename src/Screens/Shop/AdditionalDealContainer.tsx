@@ -32,8 +32,8 @@ export default class AdditionalDealContainer extends React.Component<AdditionalD
                 <View style={styles.contentContainer}>
                     <Text style={styles.productName}>{store?.storeName || ""}</Text>
                     <View style={styles.priceContainer}>
-                        <Text style={[styles.productPrice, hasDiscount && styles.priceDiscountIndication]}>{deal?.retailPrice || ""}</Text>
-                        {hasDiscount && <Text style={styles.discountedPrice}>{deal?.price || ""}</Text>}
+                        <Text style={[styles.productPrice, hasDiscount && styles.priceDiscountIndication]}>{"$" + deal?.retailPrice || ""}</Text>
+                        {hasDiscount && <Text style={styles.discountedPrice}>{"$" + deal?.price || ""}</Text>}
                     </View>
                 </View>
                 <View style={styles.spacer}/>
