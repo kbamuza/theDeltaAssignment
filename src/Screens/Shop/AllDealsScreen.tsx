@@ -80,6 +80,7 @@ class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreen
 
     return (
         <SafeAreaView style={styles.pageContainer}>
+            <TopBar heading={"CheapShark"}/>
             <View style={styles.contentContainer}>
                 <Text style={styles.pageTitle}>Deals</Text>
                 <View style={styles.searchInputContainer}>

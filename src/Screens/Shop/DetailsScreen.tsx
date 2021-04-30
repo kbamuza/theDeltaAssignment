@@ -7,6 +7,7 @@ import { findStoreById, getDealsForGame } from '../../Services/StoreService';
 import { BottomBarTabs, Deal, Game, Store } from '../../types/shop';
 import AdditionalDealContainer from './AdditionalDealContainer';
 import BottomBar from './BottomBar';
+import TopBar from './TopBar';
 
 interface DetailsScreenProps {
     game: Game
@@ -49,6 +50,7 @@ class DetailsScreen extends React.Component<DetailsScreenProps, DetailsScreenSta
     const gameStore = findStoreById(game?.storeID, stores)
     return (
         <SafeAreaView style={styles.pageContainer}>
+            <TopBar heading={"CheapShark"}/>
             <ScrollView style={styles.contentContainer}>
                 <Text style={styles.productName}>{game?.title}</Text>
                 <View style={styles.priceContainer}>

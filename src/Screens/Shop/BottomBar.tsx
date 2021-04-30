@@ -41,16 +41,15 @@ export default class BottomBar extends React.Component<BottomBarProps, BottomBar
 };
 
 const styles = StyleSheet.create({
-    pageContainer: {
-        flex: 1
-    },
     contentContainer: {
         flexDirection: 'row',
         padding: 10,
-        backgroundColor: '#eee',
+        backgroundColor: '#fefefe',
         height: 60,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
+        borderColor: "#eee",
+        borderTopWidth: 2,
     },
     bottomBarButtonText: {
         fontSize: 24,

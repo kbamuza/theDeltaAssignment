@@ -9,6 +9,7 @@ import { filterStoresBySearchTerm, getAllGames } from '../../Services/StoreServi
 import StoreContainer from './StoreContainer';
 import { connect } from 'react-redux';
 import BottomBar from './BottomBar';
+import TopBar from './TopBar';
 
 interface AllStoresScreenProps {
     componentId: string
@@ -59,6 +60,7 @@ class AllStoresScreen extends React.Component<AllStoresScreenProps, AllStoresScr
 
     return (
         <SafeAreaView style={styles.pageContainer}>
+            <TopBar heading={"CheapShark"}/>
             <View style={styles.contentContainer}>
                 <Text style={styles.pageTitle}>Stores</Text>
                 <View style={styles.searchInputContainer}>
