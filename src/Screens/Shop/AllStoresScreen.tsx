@@ -3,11 +3,12 @@ import { SafeAreaView, StyleSheet, FlatList, TextInput, Keyboard} from 'react-na
 import { Text, View } from 'react-native';
 import { Navigation } from "react-native-navigation";
 
-import { Game, Store } from '../../types/shop';
+import { BottomBarTabs, Game, Store } from '../../types/shop';
 import { filterStoresBySearchTerm, getAllGames } from '../../Services/StoreService';
 
 import StoreContainer from './StoreContainer';
 import { connect } from 'react-redux';
+import BottomBar from './BottomBar';
 
 interface AllStoresScreenProps {
     componentId: string
@@ -79,6 +80,7 @@ class AllStoresScreen extends React.Component<AllStoresScreenProps, AllStoresScr
                     keyExtractor={(item, index) => (item.storeID)}
                 />
             </View>
+            <BottomBar activeTab={BottomBarTabs.Stores}/>
         </SafeAreaView>
     );
     }
@@ -91,11 +93,6 @@ const mapStateToProps = (state: any) => {
 }
 
 export default connect(mapStateToProps, null)(AllStoresScreen);
-
-//screen title
-AllStoresScreen.navigationOptions = {
-    title: 'Stores'
-};
 
 const styles = StyleSheet.create({
     pageContainer: {

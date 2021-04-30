@@ -4,19 +4,19 @@ import { Text, View, Button } from 'react-native';
 import { Navigation } from "react-native-navigation";
 import { Game } from '../../types/shop';
 
-interface DealContainerProps {
+interface TopBarProps {
     game: Game
     goToDetails: (game: Game) => void
 }
 
 
-interface DealContainerState {
+interface TopBarState {
 
 }
 
-export default class DealContainer extends React.Component<DealContainerProps, DealContainerState> {
+export default class TopBar extends React.Component<TopBarProps, TopBarState> {
 
-    constructor(props: DealContainerProps) {
+    constructor(props: TopBarProps) {
         super(props)
         this.state = {
 
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     },
     discountedPrice: {
         fontSize: 18,
-        color: "#008f7a",
+        color: "#228B22",
         fontWeight: '600'
     },
     priceContainer: {

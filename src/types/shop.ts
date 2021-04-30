@@ -38,3 +38,9 @@ export interface Deal {
     retailPrice: string
     savings: string
   }
+
+  export enum BottomBarTabs {
+    Deals = 0,
+    Games = 1,
+    Stores = 2,
+  }

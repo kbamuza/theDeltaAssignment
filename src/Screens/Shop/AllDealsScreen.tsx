@@ -3,10 +3,11 @@ import { SafeAreaView, StyleSheet, FlatList, TextInput, Keyboard} from 'react-na
 import { Text, View } from 'react-native';
 import { Navigation } from "react-native-navigation";
 import DealContainer from './DealContainer';
-import { Game, Store } from '../../types/shop';
+import { BottomBarTabs, Game, Store } from '../../types/shop';
 import { filterGamesBySaleItems, filterGamesBySearchTerm, getAllGames, getAllStores } from '../../Services/StoreService';
 import FilterSection from './FilterSection';
 import { connect } from "react-redux";
+import BottomBar from './BottomBar';
 
 interface AllDealsScreenProps {
     componentId: string,
@@ -72,7 +73,7 @@ class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreen
 
     render() {
     // show loading indicator
-    const {availableGames, stores} = this.props
+    const {availableGames} = this.props
     const {searchTerm, isSaleFilterSelected} = this.state
     const filteredResultsBySearchTerm = filterGamesBySearchTerm(searchTerm, availableGames)
     const filteredResultsBySaleItems = filterGamesBySaleItems(isSaleFilterSelected, filteredResultsBySearchTerm)
@@ -104,6 +105,7 @@ class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreen
                     keyExtractor={(item, index) => (item.dealID)}
                 />
             </View>
+            <BottomBar activeTab={BottomBarTabs.Deals}/>
         </SafeAreaView>
     );
     }
@@ -117,10 +119,6 @@ const mapStateToProps = (state: any) => {
 }
 
 export default connect(mapStateToProps, null)(AllDealsScreen);
-
-AllDealsScreen.navigationOptions = {
-    title: 'All Deals'
-};
 
 const styles = StyleSheet.create({
     pageContainer: {

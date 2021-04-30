@@ -49,11 +49,6 @@ export default class StoreContainer extends React.Component<StoreContainerProps,
       }
 };
 
-//screen title
-StoreContainer.navigationOptions = {
-    title: 'All Deals'
-};
-
 const styles = StyleSheet.create({
     pageContainer: {
         flex: 1

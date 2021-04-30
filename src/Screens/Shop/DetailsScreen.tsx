@@ -4,8 +4,9 @@ import { Text, View, Button } from 'react-native';
 import { Navigation } from "react-native-navigation";
 import { connect } from 'react-redux';
 import { findStoreById, getDealsForGame } from '../../Services/StoreService';
-import { Deal, Game, Store } from '../../types/shop';
+import { BottomBarTabs, Deal, Game, Store } from '../../types/shop';
 import AdditionalDealContainer from './AdditionalDealContainer';
+import BottomBar from './BottomBar';
 
 interface DetailsScreenProps {
     game: Game
@@ -70,14 +71,10 @@ class DetailsScreen extends React.Component<DetailsScreenProps, DetailsScreenSta
                     keyExtractor={(item, index) => (item.dealID)}
                 />
             </ScrollView>
+            <BottomBar activeTab={BottomBarTabs.Deals}/>
         </SafeAreaView>
     );
     }
-};
-
-//screen title
-DetailsScreen.navigationOptions = {
-    title: 'Detail Screen'
 };
 
 const mapStateToProps = (state: any) => {

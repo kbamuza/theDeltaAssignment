@@ -15,81 +15,23 @@ export function registerScreens() {
   Navigation.registerComponentWithRedux('AllStoresScreen', () => AllStoresScreen, Provider, applicationStateStore)
   Navigation.registerComponentWithRedux('DetailsScreen', () => DetailsScreen, Provider, applicationStateStore)
 }
+
 export const goToAllDeals = () => {
   Navigation.setRoot({
     root: {
-      stack: {
-        // create a stack navigation
-        children: [
-          {
-            component: {
-              name: "AllDealsScreen",
-            },
-          },
-        ],
+      component: {
+          name: "AllDealsScreen",
       },
-    },
+    }
   })
 }
 
 export const goToAllStores = () => {
   Navigation.setRoot({
     root: {
-      stack: {
-        // create a stack navigation
-        children: [
-          {
-            component: {
-              name: "AllStoresScreen",
-            },
-          },
-        ],
+      component: {
+          name: "AllStoresScreen",
       },
-    },
+    }
   })
 }
-
-export const goToTabs = (icons, username) => {
-  Navigation.setRoot({
-    root: {
-      bottomTabs: {
-        id: "bottomTabsMain",
-        children: [
-          {
-            component: {
-              name: "AllDealsScreen",
-              options: {
-                bottomTab: {
-                  fontSize: 11,
-                  text: "Games",
-                },
-              },
-            },
-          },
-          {
-            component: {
-              name: "AllStoresScreen",
-              options: {
-                bottomTab: {
-                  fontSize: 11,
-                  text: "Stores",
-                },
-              },
-            },
-          },
-          {
-            component: {
-              name: "DetailsScreen",
-              options: {
-                bottomTab: {
-                  fontSize: 11,
-                  text: "Deals",
-                },
-              },
-            },
-          },
-        ],
-      },
-    },
-  });
-};
