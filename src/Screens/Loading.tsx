@@ -1,7 +1,7 @@
 
 import React, { Component } from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
-import { goToAllDeals, goToAllStores } from './navigation';
+import { goToAllDeals } from './navigation';
 import { connect } from 'react-redux';
 import { getAllGames, getAllStores } from "../Services/StoreService";
 import { saveAvailableGames, saveStores } from "../Redux/Actions/StoreActions";
@@ -23,20 +23,16 @@ class Loading extends Component<LoadingProps> {
 }
 
     async componentDidMount() {
-      // this.getAllStoresList()
-        
-        // goToAllStores()
-
         this.getStoresAndGames()
     }
 
     getAllStoresList = () => {
       getAllStores().then((allStores) => {
-          console.log("Loading.getAvailableDeals.allStores", allStores)
+          console.log("Loading.getAllStoresList.allStores", allStores)
           goToAllDeals()
       })
       .catch((err) => {
-          console.log("Loading.getAvailableDeals.err", err)
+          console.log("Loading.getAllStoresList.err", err)
           goToAllDeals()
       })
   }

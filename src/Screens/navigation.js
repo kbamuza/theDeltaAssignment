@@ -19,19 +19,31 @@ export function registerScreens() {
 export const goToAllDeals = () => {
   Navigation.setRoot({
     root: {
-      component: {
-          name: "AllDealsScreen",
+      stack: {
+        children: [
+          {
+            component: {
+              name: "AllDealsScreen",
+            },
+          },
+        ],
       },
-    }
+    },
   })
 }
 
 export const goToAllStores = () => {
   Navigation.setRoot({
     root: {
-      component: {
-          name: "AllStoresScreen",
+      stack: {
+        children: [
+          {
+            component: {
+              name: "AllStoresScreen",
+            },
+          },
+        ],
       },
-    }
+    },
   })
 }

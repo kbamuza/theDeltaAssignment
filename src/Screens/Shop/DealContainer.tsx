@@ -1,7 +1,6 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
-import { Text, View, Button } from 'react-native';
-import { Navigation } from "react-native-navigation";
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View } from 'react-native';
 import { Game } from '../../types/shop';
 
 interface DealContainerProps {
@@ -36,7 +35,7 @@ export default class DealContainer extends React.Component<DealContainerProps, D
                     <View style={styles.viewMoreButtonContainer}>
                         <TouchableOpacity
                             style={styles.viewMoreButton}
-                            onPress={this.props.goToDetails}
+                            onPress={() => this.props.goToDetails(game)}
                         >
                             <Text style={styles.viewMoreButtonTitle}>{"View More"}</Text>
                         </TouchableOpacity>

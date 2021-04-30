@@ -1,10 +1,10 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Image, Dimensions, FlatList, Keyboard, ScrollView } from 'react-native';
-import { Text, View, Button } from 'react-native';
-import { Navigation } from "react-native-navigation";
+import { SafeAreaView, StyleSheet, Image, Dimensions, FlatList, ScrollView } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { findStoreById, getDealsForGame } from '../../Services/StoreService';
 import { BottomBarTabs, Deal, Game, Store } from '../../types/shop';
+import { optionsForNoTopBar } from '../navigationOptions';
 import AdditionalDealContainer from './AdditionalDealContainer';
 import BottomBar from './BottomBar';
 import TopBar from './TopBar';
@@ -20,6 +20,10 @@ interface DetailsScreenState {
 }
 
 class DetailsScreen extends React.Component<DetailsScreenProps, DetailsScreenState> {
+
+    static options() {
+        return optionsForNoTopBar()
+    }
 
     constructor(props: DetailsScreenProps) {
         super(props)
@@ -50,7 +54,7 @@ class DetailsScreen extends React.Component<DetailsScreenProps, DetailsScreenSta
     const gameStore = findStoreById(game?.storeID, stores)
     return (
         <SafeAreaView style={styles.pageContainer}>
-            <TopBar heading={"CheapShark"}/>
+            {/* <TopBar heading={"CheapShark"}/> */}
             <ScrollView style={styles.contentContainer}>
                 <Text style={styles.productName}>{game?.title}</Text>
                 <View style={styles.priceContainer}>
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         flex: 1,
-        padding: 20
+        paddingHorizontal: 20
     },
     productName: {
         fontSize: 24,

@@ -10,6 +10,7 @@ import StoreContainer from './StoreContainer';
 import { connect } from 'react-redux';
 import BottomBar from './BottomBar';
 import TopBar from './TopBar';
+import { optionsForNoTopBar } from '../navigationOptions';
 
 interface AllStoresScreenProps {
     componentId: string
@@ -23,6 +24,10 @@ interface AllStoresScreenState {
 }
 
 class AllStoresScreen extends React.Component<AllStoresScreenProps, AllStoresScreenState> {
+
+    static options() {
+        return optionsForNoTopBar()
+    }
 
     constructor(props: AllStoresScreenProps) {
         super(props)
@@ -77,7 +82,7 @@ class AllStoresScreen extends React.Component<AllStoresScreenProps, AllStoresScr
                     keyboardShouldPersistTaps = {'always'}
                     data={filteredStoresList}
                     renderItem={({item, index}) => (
-                        <StoreContainer goToDetails={() => this.goToDetails(item)} store={item}/>
+                        <StoreContainer  store={item}/>
                     )}
                     keyExtractor={(item, index) => (item.storeID)}
                 />

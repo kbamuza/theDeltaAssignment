@@ -6,7 +6,7 @@ import { CHEAPSHARK_BASE_API } from '../../Services/StoreService';
 
 interface StoreContainerProps {
     store: Store
-    goToStoreDeals: (storeId: string) => void
+    // goToStoreDeals: (storeId: string) => void
 }
 
 
@@ -39,7 +39,7 @@ export default class StoreContainer extends React.Component<StoreContainerProps,
                     <View style={styles.viewMoreButtonContainer}>
                         <TouchableOpacity
                             style={styles.viewMoreButton}
-                            onPress={() => this.props.goToStoreDeals(store.storeID)}
+                            // onPress={() => this.props.goToStoreDeals(store.storeID)}
                         >
                             <Text style={styles.viewMoreButtonTitle}>{"View More"}</Text>
                         </TouchableOpacity>

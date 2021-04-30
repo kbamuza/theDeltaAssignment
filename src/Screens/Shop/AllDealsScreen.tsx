@@ -8,6 +8,9 @@ import { filterGamesBySaleItems, filterGamesBySearchTerm, getAllGames, getAllSto
 import FilterSection from './FilterSection';
 import { connect } from "react-redux";
 import BottomBar from './BottomBar';
+import TopBar from './TopBar';
+
+import { optionsForNoTopBar } from '../navigationOptions';
 
 interface AllDealsScreenProps {
     componentId: string,
@@ -17,38 +20,31 @@ interface AllDealsScreenProps {
 
 
 interface AllDealsScreenState {
-    // allDeals: Game[],
-    // allStores: Store[],
+
     searchTerm: string,
     isSaleFilterSelected: boolean
 }
 
 class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreenState> {
 
+    static options() {
+        return optionsForNoTopBar()
+    }
+
     constructor(props: AllDealsScreenProps) {
         super(props)
         this.state = {
-            // allDeals: [],
-            // allStores: [],
             searchTerm: "",
             isSaleFilterSelected: false
         }
     }
 
     componentDidMount = () => {
-        console.log("AllDealsScreen.componentDidMount.stores", this.props.stores)
+
     }
 
-    // getAllStoresList = () => {
-    //     getAllStores().then((allStores) => {
-    //         console.log("AllDealsScreen.getAvailableDeals.allStores", allStores)
-    //         this.setState({allStores})
-    //     }).catch((err) => {
-    //         console.log("AllDealsScreen.getAvailableDeals.err", err)
-    //     })
-    // }
-
     goToDetails = (game: Game) => {
+        console.log("AllDealsScreen.goToDetails.game", game)
         Navigation.push(this.props.componentId, {
             component: {
                 name: "DetailsScreen",
@@ -57,6 +53,7 @@ class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreen
                 }
             },
         });
+        console.log("AllDealsScreen.goToDetails.2")
     };
 
     handleSearchInputChange = (text: string) => {
@@ -101,7 +98,7 @@ class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreen
                     keyboardShouldPersistTaps = {'always'}
                     data={filteredResultsBySaleItems}
                     renderItem={({item, index}) => (
-                        <DealContainer goToDetails={() => this.goToDetails(item)} game={item}/>
+                        <DealContainer goToDetails={this.goToDetails} game={item}/>
                     )}
                     keyExtractor={(item, index) => (item.dealID)}
                 />
