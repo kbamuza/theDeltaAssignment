@@ -15,6 +15,7 @@ import { optionsForNoTopBar } from '../navigationOptions';
 interface AllStoresScreenProps {
     componentId: string
     game: Game
+    availableGames: Game[]
     stores: Store[]
 }
 
@@ -41,25 +42,27 @@ class AllStoresScreen extends React.Component<AllStoresScreenProps, AllStoresScr
 
     }
 
-
-    goToDetails = (store: Store) => {
-        // Navigation.push(this.props.componentId, {
-        //     component: {
-        //         name: "DetailsScreen",
-        //         passProps: {
-        //             game
-        //         }
-        //     },
-        // });
-    };
-
     handleSearchInputChange = (text: string) => {
         this.setState({ searchTerm: text })
     }
 
+    countDealsForStore = (storeID: string, availableGames: Game[]): number => {
+        let counter = 0
+        if(!storeID || !availableGames.length) {
+            return 0
+        } else {
+            for(var i = 0; i < availableGames.length; i++) {
+                if(availableGames[i].storeID == storeID) {
+                    counter = counter + 1
+                }
+            }
+            return counter
+        }
+    }
+
     render() {
     // show loading indicator
-    const {stores} = this.props
+    const {stores, availableGames} = this.props
     const {searchTerm,} = this.state
     const filteredStoresList = filterStoresBySearchTerm(searchTerm, stores)
 
@@ -82,7 +85,7 @@ class AllStoresScreen extends React.Component<AllStoresScreenProps, AllStoresScr
                     keyboardShouldPersistTaps = {'always'}
                     data={filteredStoresList}
                     renderItem={({item, index}) => (
-                        <StoreContainer  store={item}/>
+                        <StoreContainer dealsPerStore={this.countDealsForStore(item?.storeID, availableGames)} store={item}/>
                     )}
                     keyExtractor={(item, index) => (item.storeID)}
                 />
@@ -95,7 +98,8 @@ class AllStoresScreen extends React.Component<AllStoresScreenProps, AllStoresScr
 
 const mapStateToProps = (state: any) => {
     return {
-        stores: state.storeReducer.stores
+        stores: state.storeReducer.stores,
+        availableGames: state.storeReducer.availableGames,
     }
 }
 

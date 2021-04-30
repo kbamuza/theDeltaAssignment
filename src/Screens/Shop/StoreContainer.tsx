@@ -6,6 +6,7 @@ import { CHEAPSHARK_BASE_API } from '../../Services/StoreService';
 
 interface StoreContainerProps {
     store: Store
+    dealsPerStore: number
     // goToStoreDeals: (storeId: string) => void
 }
 
@@ -28,7 +29,7 @@ export default class StoreContainer extends React.Component<StoreContainerProps,
     }
 
       render() {
-        const {store} = this.props
+        const {store, dealsPerStore} = this.props
         if(!store) {return <View/>}
         return (
                 <View style={styles.contentContainer}>
@@ -36,6 +37,7 @@ export default class StoreContainer extends React.Component<StoreContainerProps,
                         {!!store?.images?.banner && <Image resizeMode="contain" style={styles.image} source={{uri: `${CHEAPSHARK_BASE_API}${store.images?.banner}`}}/>}
                     </View>
                     <Text style={styles.storeName}>{store?.storeName || ""}</Text>
+                    {!!dealsPerStore && <Text style={styles.dealsPerStore}>{`${String(dealsPerStore)} deals`}</Text>}
                     <View style={styles.viewMoreButtonContainer}>
                         <TouchableOpacity
                             style={styles.viewMoreButton}
@@ -76,6 +78,9 @@ const styles = StyleSheet.create({
     },
     viewMoreButtonTitle: {
         fontSize: 16
+    },
+    dealsPerStore: {
+        fontSize: 14
     },
     image: {
         height: 300,
