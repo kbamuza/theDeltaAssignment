@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import { Navigation } from "react-native-navigation";
 import DealContainer from './DealContainer';
 import { BottomBarTabs, Game, Store } from '../../types/shop';
-import { filterGamesBySaleItems, filterGamesBySearchTerm, getAllGames, getAllStores } from '../../Services/StoreService';
+import { filterGamesBySaleItems, filterGamesBySearchTerm, filterGamesByStoreId, getAllGames, getAllStores } from '../../Services/StoreService';
 import FilterSection from './FilterSection';
 import { connect } from "react-redux";
 import BottomBar from './BottomBar';
@@ -15,7 +15,9 @@ import { optionsForNoTopBar } from '../navigationOptions';
 interface AllDealsScreenProps {
     componentId: string,
     stores: Store[]
-    availableGames: Game[]
+    availableGames: Game[],
+    dealsToDisplay: Game[],
+    storeID?: string
 }
 
 
@@ -23,6 +25,7 @@ interface AllDealsScreenState {
 
     searchTerm: string,
     isSaleFilterSelected: boolean
+    dealsToDisplay: Game[]
 }
 
 class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreenState> {
@@ -35,12 +38,28 @@ class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreen
         super(props)
         this.state = {
             searchTerm: "",
-            isSaleFilterSelected: false
+            isSaleFilterSelected: false,
+            dealsToDisplay: []
         }
     }
 
     componentDidMount = () => {
+        const dealsToDisplay = this.getDealsToDisplay()
+        this.setState({dealsToDisplay})
+    }
 
+    getDealsToDisplay = () => {
+        console.log("AllDealsScreen.getDealsToDisplay ----> 1")
+        const {storeID, availableGames} = this.props
+        if(storeID) {
+            console.log("AllDealsScreen.getDealsToDisplay ----> 2")
+            const results = filterGamesByStoreId(storeID, availableGames) 
+            console.log("AllDealsScreen.getDealsToDisplay.results ----> ", results)
+            return results
+        } else {
+            console.log("AllDealsScreen.getDealsToDisplay ----> 1")
+            return availableGames
+        }
     }
 
     goToDetails = (game: Game) => {
@@ -64,15 +83,10 @@ class AllDealsScreen extends React.Component<AllDealsScreenProps, AllDealsScreen
         this.setState({ isSaleFilterSelected: !this.state.isSaleFilterSelected })
     }
 
-    // setSaleFilter = () => {
-    //     this.setState({ searchTerm: text })
-    // }
 
     render() {
-    // show loading indicator
-    const {availableGames} = this.props
-    const {searchTerm, isSaleFilterSelected} = this.state
-    const filteredResultsBySearchTerm = filterGamesBySearchTerm(searchTerm, availableGames)
+    const {searchTerm, isSaleFilterSelected, dealsToDisplay} = this.state
+    const filteredResultsBySearchTerm = filterGamesBySearchTerm(searchTerm, dealsToDisplay)
     const filteredResultsBySaleItems = filterGamesBySaleItems(isSaleFilterSelected, filteredResultsBySearchTerm)
 
     return (

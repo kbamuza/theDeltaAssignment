@@ -1,16 +1,16 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, FlatList, TextInput, Keyboard} from 'react-native';
 import { Text, View } from 'react-native';
-import { Navigation } from "react-native-navigation";
 
 import { BottomBarTabs, Game, Store } from '../../types/shop';
-import { filterStoresBySearchTerm, getAllGames } from '../../Services/StoreService';
+import { filterGamesByStoreId, filterStoresBySearchTerm } from '../../Services/StoreService';
 
 import StoreContainer from './StoreContainer';
 import { connect } from 'react-redux';
 import BottomBar from './BottomBar';
 import TopBar from './TopBar';
 import { optionsForNoTopBar } from '../navigationOptions';
+import { Navigation } from 'react-native-navigation';
 
 interface AllStoresScreenProps {
     componentId: string
@@ -46,22 +46,21 @@ class AllStoresScreen extends React.Component<AllStoresScreenProps, AllStoresScr
         this.setState({ searchTerm: text })
     }
 
-    countDealsForStore = (storeID: string, availableGames: Game[]): number => {
-        let counter = 0
-        if(!storeID || !availableGames.length) {
-            return 0
-        } else {
-            for(var i = 0; i < availableGames.length; i++) {
-                if(availableGames[i].storeID == storeID) {
-                    counter = counter + 1
+    goToDealsForStore = (storeID: string) => {
+        if(!storeID) {return}
+        console.log("AllStoresScreen.goToDealsForStore.storeID", storeID)
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: "AllDealsScreen",
+                passProps: {
+                    storeID
                 }
-            }
-            return counter
-        }
-    }
+            },
+        });
+        console.log("AllStoresScreen.goToDealsForStore.storeID.2")
+    };
 
     render() {
-    // show loading indicator
     const {stores, availableGames} = this.props
     const {searchTerm,} = this.state
     const filteredStoresList = filterStoresBySearchTerm(searchTerm, stores)
@@ -85,7 +84,7 @@ class AllStoresScreen extends React.Component<AllStoresScreenProps, AllStoresScr
                     keyboardShouldPersistTaps = {'always'}
                     data={filteredStoresList}
                     renderItem={({item, index}) => (
-                        <StoreContainer dealsPerStore={this.countDealsForStore(item?.storeID, availableGames)} store={item}/>
+                        <StoreContainer goToDealsForStore={this.goToDealsForStore} dealsPerStore={filterGamesByStoreId(item.storeID, availableGames).length} store={item}/>
                     )}
                     keyExtractor={(item, index) => (item.storeID)}
                 />

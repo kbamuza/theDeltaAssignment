@@ -65,6 +65,13 @@ export function filterGamesBySaleItems(saleFilterStatus: boolean, games: Game[])
     return filteredResults
 }
 
+export function filterGamesByStoreId(storeID: string, games: Game[]){
+    if(!storeID) {return games}
+    const filteredResults = games.filter((game) => game.storeID == storeID)
+    console.log("filterGamesByStoreId.filteredResults", filteredResults)
+    return filteredResults
+}
+
 export function filterStoresBySearchTerm(searchTerm: string, stores: Store[]){
     if(!searchTerm) {return stores}
     const filteredResults = stores.filter((store) => store.storeName.toLowerCase().includes(searchTerm.toLowerCase()))
